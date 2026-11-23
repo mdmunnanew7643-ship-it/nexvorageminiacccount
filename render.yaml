@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: nexvora-gmail-vault
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
