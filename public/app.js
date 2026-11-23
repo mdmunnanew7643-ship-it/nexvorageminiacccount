@@ -25,6 +25,7 @@
   const totalMainCount = document.getElementById('totalMainCount');
   const totalInviteCount = document.getElementById('totalInviteCount');
   const storagePathLabel = document.getElementById('storagePathLabel');
+  const storagePill = document.getElementById('storagePill');
 
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -133,6 +134,19 @@
       state.accounts = Array.isArray(data.accounts) ? data.accounts : [];
       if (data.storageFile) {
         storagePathLabel.textContent = data.storageFile.replace(/\\/g, '/');
+      }
+      if (storagePill && data.storageMode) {
+        storagePill.classList.toggle('warning', data.storageMode === 'ephemeral');
+        const pillText = storagePill.querySelector('span:last-child');
+        if (pillText) {
+          if (data.storageMode === 'postgres') {
+            pillText.textContent = 'Cloud DB Permanent';
+          } else if (data.storageMode === 'ephemeral') {
+            pillText.textContent = 'Temporary Disk';
+          } else {
+            pillText.textContent = 'Saved Locally';
+          }
+        }
       }
       render();
     } catch (err) {
